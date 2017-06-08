@@ -89,6 +89,24 @@ namespace RemoteControlServer
                 commands.CloseProgram(dictionary.FindProgramName(program));
                 return;
             }
+            if (command.Contains("увеличить звук"))
+            {
+                VolumeControl.VolumeUp();
+                SendMessage("success");
+                return;
+            }
+            if (command.Contains("уменьшить звук"))
+            {
+                VolumeControl.VolumeDown();
+                SendMessage("success");
+                return;
+            }
+            if (command.Contains("выключить звук"))
+            {
+                VolumeControl.Mute();
+                SendMessage("success");
+                return;
+            }
             else
             {
                 SendMessage("error");
@@ -160,40 +178,4 @@ namespace RemoteControlServer
             throw new NotImplementedException();
         }
     }
-    //ProcessStartInfo processStartfffInfo = new ProcessStartInfo(@"C:\Windows\notepad.exe");
-    ////Запускаем приложение
-    //var notepad = Application.AttachOrLaunch(processStartInfo);
-    ////Находим в нем главное окно
-    //var winMain = notepad.GetWindow("Безымянный — Блокнот");
-    ////Находим в окне область ввода текста и пешем в нее "Hello, world!"
-    //var textArea = winMain.Get<TextBox>(SearchCriteria.ByAutomationId("15"));
-    //textArea.Text = "Hello, world!";
-
-
-    //        notepad.Close();
-    //        ////еще вводить текст можно так: textArea.Enter("Hello, world!")
-    //        ////На главном окне находим MenuBar
-    //        //var menu = winMain.Get<MenuBar>(SearchCriteria.ByAutomationId("MenuBar"));
-    //        ////Навигация по меню осуществляется методом MenuItem который принимает список подменю
-    //        //var btnSaveAs = menu.MenuItem("Файл", "Сохранить как...");
-    //        ////Кликаем по кнопке "Save As..."
-    //        //btnSaveAs.Click();
-    //        ////Получаем модальное диалоговое окно "Save As"
-    //        //var winSaveFileDialog = winMain.ModalWindow("Save As");
-    //        ////В диалоговом окне находим поле для ввода имени файла и пешем туда "D:\\test.txt"
-    //        //var tbFileName = winSaveFileDialog.MdiChild(SearchCriteria.ByAutomationId("1001"));
-    //        //tbFileName.Enter("D:\\test.txt");
-    //        ////Ищем кнопочку "Save" и кликаем на нее
-    //        //var btnSave = winSaveFileDialog.Get<Button>(SearchCriteria.ByText("Save"));
-    //        //btnSave.Click();
-    //        ////Если файл уже существует, то может появиться окно подтверждения перезаписи файла
-    //        ////если такое окно нашлось, то кликаем кнопку "Yes"
-    //        //var winConfirmationDialog = winSaveFileDialog.ModalWindow("Confirm Save As");
-    //        //if (winConfirmationDialog != null)
-    //        //{
-    //        //    var btnYes = winConfirmationDialog.Get<Button>(SearchCriteria.ByText("Yes"));
-    //        //    btnYes.Click();
-    //        //}
-    //        ////Закрываем приложение
-    //        //notepad.Close();
 }

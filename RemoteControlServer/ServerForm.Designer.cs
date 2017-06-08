@@ -31,7 +31,6 @@
             this.listCommands.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.listCommands.Size = new System.Drawing.Size(227, 199);
             this.listCommands.TabIndex = 0;
-            this.listCommands.SelectedIndexChanged += new System.EventHandler(this.listCommands_SelectedIndexChanged);
             this.listCommands.Leave += new System.EventHandler(this.listCommands_Leave);
             // 
             // textBox
@@ -56,7 +55,6 @@
             this.Text = "RemoteControlServer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ServerForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ServerForm_FormClosed);
-            this.Load += new System.EventHandler(this.ServerForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -26,21 +26,11 @@ namespace RemoteControlServer
                 e.Cancel = false;
             }
         }
-
-        private void ServerForm_Load(object sender, EventArgs e)
-        {
-            this.listCommands.Items.Add("Комманд нет");
-        }
-
+        
         private void ServerForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
             Environment.Exit(1);
-        }
-
-        private void listCommands_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void listCommands_Leave(object sender, EventArgs e)
