@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RemoteControlServer
 {
-    class CommandHandler 
+    class ProgramNameDictionary 
     {
         private String[] notepads = { "блокнот", "notepad" };
         private String[] browserIE = { "браузер", "explorer" };

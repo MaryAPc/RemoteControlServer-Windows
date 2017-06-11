@@ -11,7 +11,6 @@ namespace RemoteControlServer
         void OpenProgram(String name);
 
         void CloseProgram(String name);
-
-        void HideProgram(String name);
+        
     }
 }
