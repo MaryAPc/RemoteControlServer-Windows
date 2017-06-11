@@ -4,21 +4,13 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.IO;
-using TestStack.White;
-using TestStack.White.UIItems;
-using TestStack.White.UIItems.Finders;
-using TestStack.White.UIItems.MenuItems;
-using TestStack.White.UIItems.WindowItems;
-using TestStack.White.UIItems.WindowStripControls;
 using System.Windows.Forms;
-using System.Linq;
 using System.ComponentModel;
 using System.Threading;
 
 namespace RemoteControlServer
 {
-    class Program : Commands
+    partial class Program : Commands
     {
         static int port = 8081;
         static IPAddress ipAddress = IPAddress.Parse("0.0.0.0");
@@ -41,8 +33,8 @@ namespace RemoteControlServer
             {
                 Thread newThread = new Thread(StartServer);
                 newThread.Start();
-                System.Windows.Forms.Application.EnableVisualStyles();
-                System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
                 form = new ServerForm();
                 System.Windows.Forms.Application.Run(form);
             }
@@ -100,10 +92,19 @@ namespace RemoteControlServer
                 VolumeControl.VolumeDown();
                 SendMessage("success");
                 return;
+                
             }
-            if (command.Contains("выключить звук"))
+            if (command.Contains("записать"))
             {
-                VolumeControl.Mute();
+                string text = command.Replace("записать ", "");
+                form.Invoke(new Action(() => NotepadCommands.EnterText(text)));
+                SendMessage("success");
+                return;
+            }
+            if (command.Contains("сохранить"))
+            {
+                String timeStamp = DateTime.Now.ToShortDateString();
+                form.Invoke(new Action(() => NotepadCommands.SaveText(timeStamp)));
                 SendMessage("success");
                 return;
             }
@@ -171,11 +172,6 @@ namespace RemoteControlServer
             {
                 SendMessage("error");
             }
-        }
-
-        void Commands.HideProgram(string name)
-        {
-            throw new NotImplementedException();
         }
     }
 }
