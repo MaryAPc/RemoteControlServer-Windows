@@ -13,9 +13,9 @@ namespace RemoteControlServer
     public partial class ServerForm : Form
     {
        
-        public ServerForm()
+        public ServerForm(String ipAddress)
         {
-            InitializeComponent();
+            InitializeComponent(ipAddress);
         }
 
         private void ServerForm_FormClosing(object sender, FormClosingEventArgs e)

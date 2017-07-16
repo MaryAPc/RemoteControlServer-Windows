@@ -7,12 +7,13 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Threading;
+using TestStack.White;
 
 namespace RemoteControlServer
 {
-    partial class Program : Commands
+    class Program : Commands
     {
-        static int port = 8081;
+        static int port = 8381;
         static IPAddress ipAddress = IPAddress.Parse("0.0.0.0");
 
         private static Socket serverSocket;
@@ -33,11 +34,18 @@ namespace RemoteControlServer
             {
                 Thread newThread = new Thread(StartServer);
                 newThread.Start();
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                form = new ServerForm();
+                System.Windows.Forms.Application.EnableVisualStyles();
+                System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+                form = new ServerForm(GetIpAddress());
                 System.Windows.Forms.Application.Run(form);
             }
+        }
+
+        private static String GetIpAddress()
+        {
+            String host = Dns.GetHostName();
+            IPAddress ip = Dns.GetHostByName(host).AddressList[0];
+            return ip.ToString();
         }
 
         private static void StartServer()
@@ -83,14 +91,12 @@ namespace RemoteControlServer
             }
             if (command.Contains("увеличить звук"))
             {
-                VolumeControl.VolumeUp();
-                SendMessage("success");
+                commands.VolumeUp();
                 return;
             }
             if (command.Contains("уменьшить звук"))
             {
-                VolumeControl.VolumeDown();
-                SendMessage("success");
+                commands.VolumeDown();
                 return;
                 
             }
@@ -104,8 +110,7 @@ namespace RemoteControlServer
             if (command.Contains("сохранить"))
             {
                 String timeStamp = DateTime.Now.ToShortDateString();
-                form.Invoke(new Action(() => NotepadCommands.SaveText(timeStamp)));
-                SendMessage("success");
+                commands.SaveNotepadText(timeStamp);
                 return;
             }
             else
@@ -148,8 +153,10 @@ namespace RemoteControlServer
         {
             try
             {
-                ProcessStartInfo processStartInfo = new ProcessStartInfo(name + ".exe");
-                var notepad = TestStack.White.Application.AttachOrLaunch(processStartInfo);
+                form.Invoke(new Action(() => {
+                    ProcessStartInfo processStartInfo = new ProcessStartInfo(name + ".exe");
+                    var application = TestStack.White.Application.AttachOrLaunch(processStartInfo);
+                })); 
                 SendMessage("success");
             } catch (Win32Exception e)
             {
@@ -172,6 +179,29 @@ namespace RemoteControlServer
             {
                 SendMessage("error");
             }
+        }
+
+         void Commands.VolumeUp()
+        {
+            VolumeControl.VolumeUp();
+            SendMessage("success");
+        }
+
+         void Commands.VolumeDown()
+        {
+            VolumeControl.VolumeDown();
+            SendMessage("success");
+        }
+
+        void Commands.EditTextMessage(String text)
+        {
+           
+        }
+
+         void Commands.SaveNotepadText(String timeStamp)
+        {
+            form.Invoke(new Action(() => NotepadCommands.SaveText(timeStamp)));
+            SendMessage("success");
         }
     }
 }
