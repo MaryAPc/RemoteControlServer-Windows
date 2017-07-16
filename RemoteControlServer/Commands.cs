@@ -11,6 +11,13 @@ namespace RemoteControlServer
         void OpenProgram(String name);
 
         void CloseProgram(String name);
-        
+
+        void VolumeUp();
+
+        void VolumeDown();
+
+        void EditTextMessage(String text);
+
+        void SaveNotepadText(String timeStamp);
     }
 }
